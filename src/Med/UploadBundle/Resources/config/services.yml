@@ -1,0 +1,16 @@
+services:
+#    upload.example:
+#        class: Med\UploadBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
+    upload.annotation_reader:
+        class: Med\UploadBundle\Annotation\UploadAnnotationReader
+        arguments: ["@annotations.reader"]
+
+    upload.handler:
+        class: Med\UploadBundle\Handler\UploadHandler
+
+    upload.subscribe:
+        class: Med\UploadBundle\Listener\UploadSubscriber
+        arguments: ["@upload.annotation_reader", "@upload.handler"]
+        tags:
+            - { name: doctrine.event_subscriber, connection: default}
